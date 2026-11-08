@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+.idea/
+.npmrc
+
+# Local environment overrides may contain credentials.
+.env
+.env.local
+.env.*.local
+
+.playwright-mcp/

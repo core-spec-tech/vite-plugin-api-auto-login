@@ -1,0 +1,5 @@
+export { viteAPIAutoLogin } from '@/plugin'
+export { createFormDataRequest } from '@/auth/createFormDataRequest'
+export { loadPluginConfig } from '@/config/loadPluginConfig'
+export type { AuthRequest, AuthRequestOptions } from '@/auth/AuthRequest'
+export type { AutoLoginOptions, PluginEnv, FormFieldNames, AuthCookieOptions } from '@/config/types'

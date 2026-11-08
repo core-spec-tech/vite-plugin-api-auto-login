@@ -1,0 +1,43 @@
+name: Publish
+
+on:
+  push:
+    tags: ['v*', '@corespec/vite-plugin-api-auto-login@*']
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to stage
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version-file: .nvmrc
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+      - name: Check release tag matches package version
+        env:
+          RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+        run: node --input-type=module -e "import fs from 'node:fs'; const { name, version } = JSON.parse(fs.readFileSync('package.json', 'utf8')); if (!['v' + version, name + '@' + version].includes(process.env.RELEASE_TAG)) throw new Error('Tag must match package version');"
+      - run: npm ci
+      - run: npm run security:audit
+      - run: npm run check
+      - run: npm run build
+      - name: Stage package on npm
+        run: npm stage publish --access public --provenance
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

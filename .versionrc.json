@@ -1,0 +1,10 @@
+{
+  "header": "# Changelog\n\nChanges to this project will be documented here.\n",
+  "tagPrefix": "v",
+  "releaseCommitMessageFormat": "chore(release): {{currentTag}}",
+  "packageFiles": ["package.json"],
+  "bumpFiles": ["package.json", "package-lock.json"],
+  "scripts": {
+    "postchangelog": "prettier --write CHANGELOG.md"
+  }
+}

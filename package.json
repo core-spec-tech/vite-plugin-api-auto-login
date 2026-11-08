@@ -1,0 +1,115 @@
+{
+  "name": "@corespec/vite-plugin-api-auto-login",
+  "version": "0.2.0",
+  "description": "Reusable Vite plugin for API auto login during local development",
+  "type": "module",
+  "main": "./dist/vite-plugin-api-auto-login.cjs",
+  "module": "./dist/vite-plugin-api-auto-login.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vite-plugin-api-auto-login.js",
+      "require": "./dist/vite-plugin-api-auto-login.cjs"
+    }
+  },
+  "scripts": {
+    "build": "vite build && npm run build:types",
+    "build:types": "tsc -p tsconfig.build.json --emitDeclarationOnly && tsc-alias -p tsconfig.build.json",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
+    "release": "commit-and-tag-version",
+    "lint:file:fix": "npm-run-all \"eslint -- {1} --fix\" --",
+    "lint:file": "npm-run-all \"eslint -- {1}\" --",
+    "eslint": "eslint",
+    "lint:fix": "eslint . --fix",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit && vue-tsc --noEmit -p examples/vue-msw/tsconfig.json",
+    "check": "npm run format:check && npm run lint && npm run typecheck && npm test -- --run",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check",
+    "example": "npm run build && node examples/vue-msw/dev.ts",
+    "example:build": "npm run build && vue-tsc --noEmit -p examples/vue-msw/tsconfig.json && vite build --config examples/vue-msw/vite.config.ts",
+    "release:first": "npm run release -- --first-release",
+    "release:patch": "npm run release -- --release-as patch",
+    "release:minor": "npm run release -- --release-as minor",
+    "release:major": "npm run release -- --release-as major",
+    "security:audit": "npm audit --package-lock-only --include=dev --audit-level=high"
+  },
+  "license": "ISC",
+  "engines": {
+    "node": ">=22.23.4"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@msw/serve": "^0.11.0",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "@types/node": "^22.20.5",
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vitest/coverage-v8": "^5.0.5",
+    "@vitest/eslint-plugin": "^1.6.28",
+    "commit-and-tag-version": "^13.3.0",
+    "eslint": "^10.14.0",
+    "eslint-config-prettier": "10.1.8",
+    "eslint-plugin-vue": "^10.12.0",
+    "globals": "^17.14.0",
+    "msw": "^3.0.4",
+    "npm-run-all2": "^9.0.4",
+    "prettier": "3.9.10",
+    "tsc-alias": "^1.9.10",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.1",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5",
+    "vue": "^3.5.45",
+    "vue-tsc": "^3.3.14"
+  },
+  "dependencies": {
+    "cookie": "^2.0.2",
+    "jose": "^6.2.15",
+    "rxjs": "^7.8.2",
+    "undici": "^8.12.3"
+  },
+  "peerDependencies": {
+    "vite": "^7.0.0 || ^8.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "keywords": [
+    "vite-plugin",
+    "authentication",
+    "auto-login"
+  ],
+  "compatiblePackages": {
+    "schemaVersion": 1,
+    "vite": {
+      "type": "compatible",
+      "versions": "^7.0.0 || ^8.0.0",
+      "note": "Development server only; requires Vite configureServer and middleware APIs."
+    },
+    "rollup": {
+      "type": "incompatible",
+      "reason": "Requires the Vite development server and its configureServer hook."
+    },
+    "rolldown": {
+      "type": "incompatible",
+      "reason": "Requires the Vite development server and its configureServer hook."
+    }
+  },
+  "overrides": {
+    "minimatch@^10.0.0": "^11.0.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/core-spec-tech/vite-plugin-api-auto-login.git"
+  },
+  "homepage": "https://github.com/core-spec-tech/vite-plugin-api-auto-login#readme",
+  "bugs": {
+    "url": "https://github.com/core-spec-tech/vite-plugin-api-auto-login/issues"
+  }
+}

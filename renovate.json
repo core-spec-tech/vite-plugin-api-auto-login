@@ -1,0 +1,39 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended"],
+  "semanticCommits": "enabled",
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "description": "Merge patch updates directly into main without a PR once tests pass",
+      "matchUpdateTypes": ["patch", "pin", "digest"],
+      "groupName": "all patch dependencies",
+      "groupSlug": "all-patch",
+      "automerge": true,
+      "automergeType": "branch"
+    },
+    {
+      "description": "Group minor updates into one PR; create separate PRs for major updates (default)",
+      "matchUpdateTypes": ["minor"],
+      "groupName": "all minor dependencies",
+      "groupSlug": "all-minor"
+    },
+    {
+      "description": "Defer native TypeScript 7 until typescript-eslint supports it",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7.0.0"
+    },
+    {
+      "description": "Do not update Node.js versions in Docker images or engines",
+      "matchDepNames": ["node"],
+      "enabled": false
+    },
+    {
+      "description": "Keep GitHub Actions pinned to commits and review workflow dependency updates",
+      "matchManagers": ["github-actions"],
+      "pinDigests": true,
+      "automerge": false,
+      "groupName": null
+    }
+  ]
+}
